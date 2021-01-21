@@ -106,7 +106,7 @@
         Atras.className = 'atras';
         // Atras.textContent = 'Atras ' + (I + 1);
         Atras.textContent = (I + 1);
-        
+
         let Adelante = document.createElement('div');
         Adelante.className = 'adelante';
         Adelante.textContent = 'Adelante';
@@ -124,37 +124,35 @@
     const ClickTarjeta = (e) => {
       const Tarjeta = e.currentTarget;
 
-      if (!Tarjeta.classList.contains('correcta')) {
-        Tarjeta.classList.add('duda');
-        Tarjeta.classList.replace('cubierta', 'descubierta');
+      Tarjeta.classList.add('duda');
+      Tarjeta.classList.replace('cubierta', 'descubierta');
 
-        const TarjetaDuda = document.getElementsByClassName('duda');
-        const ImgTarjetaDuda = document.querySelectorAll('.duda .atras');
+      const TarjetaDuda = document.getElementsByClassName('duda');
+      const ImgTarjetaDuda = document.querySelectorAll('.duda .atras');
 
-        if (TarjetaDuda.length == 2) {
+      if (TarjetaDuda.length == 2) {
 
-          const TarjetaDudaUno = TarjetaDuda[0];
-          const TarjetaDudaDos = TarjetaDuda[1];
+        const TarjetaDudaUno = TarjetaDuda[0];
+        const TarjetaDudaDos = TarjetaDuda[1];
 
-          const ImgTarjetaDudaUno = ImgTarjetaDuda[0];
-          const ImgTarjetaDudaDos = ImgTarjetaDuda[1];
+        const ImgTarjetaDudaUno = ImgTarjetaDuda[0];
+        const ImgTarjetaDudaDos = ImgTarjetaDuda[1];
 
-          let ValorUno = parseInt(ImgTarjetaDudaUno.textContent);
-          let ValorDos = parseInt(ImgTarjetaDudaDos.textContent);
+        let ValorUno = parseInt(ImgTarjetaDudaUno.textContent);
+        let ValorDos = parseInt(ImgTarjetaDudaDos.textContent);
 
-          if(ValorUno % 2 == 0)
-            --ValorUno;
-          else
-            ++ValorUno;
+        if (ValorUno % 2 == 0)
+          --ValorUno;
+        else
+          ++ValorUno;
 
-          if ( ValorUno == ValorDos ) {
-            console.log('Contenidos iguales');
-            TarjetasIguales(TarjetaDudaUno, TarjetaDudaDos);
-          } else {
-            console.log('Contenidos distintos');
-            TarjetasDistintas(TarjetaDudaUno, TarjetaDudaDos);
-            // TarjetasIguales(TarjetaDudaUno, TarjetaDudaDos);
-          }
+        if (ValorUno == ValorDos) {
+          console.log('Contenidos iguales');
+          TarjetasIguales(TarjetaDudaUno, TarjetaDudaDos);
+        } else {
+          console.log('Contenidos distintos');
+          TarjetasDistintas(TarjetaDudaUno, TarjetaDudaDos);
+          // TarjetasIguales(TarjetaDudaUno, TarjetaDudaDos);
         }
       }
     }

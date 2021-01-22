@@ -75,37 +75,57 @@
   </section>
 
   <section class="tablero" id="Tablero">
-
+  
     <div class="tarjeta cubierta incorrecta">
-      <!-- <div class="atras">Hi</div> -->
-      <!-- <div class="adelante">Jo</div> -->
       <div class="atras">Hi</div>
-      <!-- <div class="adelante">Jo</div> -->
-      <!-- <img class="adelante" src="sprite.svg#pikachu"> -->
+      <div class="adelante">Jo</div>
+    </div>
+    
+    <div class="tarjeta cubierta incorrecta">
+      <div class="atras">Hi</div>
       <svg class="adelante" viewBox="0 0 20000 22000">
         <use xlink:href="sprite.svg#pikachu"></use>
       </svg>
     </div>
+
+    <div class="tarjeta cubierta incorrecta">
+      <div class="atras">Hi</div>
+      <img class="adelante" src="Pokemons/002.png">
+    </div>
   </section>
 
-  <script>
+<script>
     const PintarTablero = () => {
 
-      const CantidadTarjestas = document.getElementById('InputParejas').value * 2;
+      const CantidadTarjetas = document.getElementById('InputParejas').value * 2;
       const Tablero = document.getElementById('Tablero');
       Tablero.innerHTML = '';
+      const Parejas = CrearParejas(CantidadTarjetas);
+
+      console.log(Parejas);
 
       const Fragmento = document.createDocumentFragment();
 
-      for (let I = 0; I < CantidadTarjestas; I++) {
+      for (let I = 0; I < CantidadTarjetas; I++) {
 
         let Tarjeta = document.createElement('div');
         Tarjeta.classList.add('tarjeta', 'cubierta');
 
-        let Atras = document.createElement('div');
+        let Atras = document.createElement('img');
         Atras.className = 'atras';
         // Atras.textContent = 'Atras ' + (I + 1);
-        Atras.textContent = (I + 1);
+        // Atras.textContent = (I + 1);
+        // Atras.textContent = Parejas[I];
+        
+        let Imagen = Parejas[I];
+        
+        if(Imagen < 10){
+          Imagen ='00'+Imagen;
+        }else if (Imagen < 100){
+          Imagen ='0'+Imagen;
+        }
+
+        Atras.setAttribute('src',`Pokemons/${Imagen}.png`);
 
         let Adelante = document.createElement('div');
         Adelante.className = 'adelante';
@@ -119,6 +139,38 @@
         Fragmento.appendChild(Tarjeta);
       }
       Tablero.appendChild(Fragmento);
+    }
+
+    const CrearParejas = (CantidadTarjetas) =>{
+
+      let Min = 1;
+      let Max = 150;
+      const Length = CantidadTarjetas / 2;
+
+      let num = Math.floor(Math.random() * ((Max + 1) - Min) + Min);
+      let AleatoriosMitadUno = [];
+      let AleatoriosMitadDos = [];
+      
+      for (let I = 1; I <= Length; I++) {
+        while(AleatoriosMitadUno.includes(num)){
+          num = Math.floor(Math.random() * ((Max + 1) - Min) + Min);
+        }
+        AleatoriosMitadUno.push(num);
+      }
+
+      Min = 0;
+      Max = Length - 1;
+
+      num = Math.floor(Math.random() * ((Max + 1) - Min) + Min);
+      
+      for (let I = 1; I <= Length; I++) {
+        while(AleatoriosMitadDos.includes(AleatoriosMitadUno[num])){
+          num = Math.floor(Math.random() * ((Max + 1) - Min) + Min);
+        }
+        AleatoriosMitadDos.push(AleatoriosMitadUno[num]);
+      }
+
+      return [...AleatoriosMitadUno, ...AleatoriosMitadDos];
     }
 
     const ClickTarjeta = (e) => {
@@ -138,27 +190,27 @@
         const ImgTarjetaDudaUno = ImgTarjetaDuda[0];
         const ImgTarjetaDudaDos = ImgTarjetaDuda[1];
 
-        let ValorUno = parseInt(ImgTarjetaDudaUno.textContent);
-        let ValorDos = parseInt(ImgTarjetaDudaDos.textContent);
+        // let ValorUno = parseInt(ImgTarjetaDudaUno.textContent);
+        // let ValorDos = parseInt(ImgTarjetaDudaDos.textContent);
 
-        if (ValorUno % 2 == 0)
-          --ValorUno;
-        else
-          ++ValorUno;
+        // if (ValorUno % 2 == 0)
+        //   --ValorUno;
+        // else
+        //   ++ValorUno;
 
-        if (ValorUno == ValorDos) {
+        // if (ValorUno == ValorDos) {
+        if (ImgTarjetaDudaUno.src == ImgTarjetaDudaDos.src) {
           console.log('Contenidos iguales');
           TarjetasIguales(TarjetaDudaUno, TarjetaDudaDos);
         } else {
           console.log('Contenidos distintos');
           TarjetasDistintas(TarjetaDudaUno, TarjetaDudaDos);
-          // TarjetasIguales(TarjetaDudaUno, TarjetaDudaDos);
         }
       }
     }
 
     const TarjetasDistintas = (TarjetaDudaUno, TarjetaDudaDos) => {
-      const Milisegundos = 300;
+      const Milisegundos = 200;
 
       setTimeout(() => {
         TarjetaDudaUno.classList.replace('duda', 'incorrecta');
@@ -179,7 +231,7 @@
     }
 
     const TarjetasIguales = (TarjetaDudaUno, TarjetaDudaDos) => {
-      const Milisegundos = 300;
+      const Milisegundos = 200;
 
       setTimeout(() => {
         TarjetaDudaUno.classList.replace('duda', 'correcta');

@@ -28,6 +28,13 @@ const MostrarPuntajes = () => {
       </tr>`;
     }
   }
+  if(TableroPuntajes.innerHTML == ''){
+    TableroPuntajes.innerHTML +=`
+      <tr class='sin-puntajes'>
+        <td><div>0<div></td>
+        <td colspan='4'>No hay puntajes registrados</td>
+      </tr>`;
+  }
   
 }
 
@@ -297,6 +304,13 @@ const Gano = () => {
     ConfigurarCookie(`Errores_${Puesto}`, ErroresActual, 100);
     
     MostrarPuntajes();
+
+    const BotonPuntajes = document.getElementById('BotonPuntajes');
+    if(BotonPuntajes.textContent === '⯇'){
+      const MejoresPuntajes = document.getElementById('MejoresPuntajes');
+      ClickBotonPuntajes(BotonPuntajes, MejoresPuntajes);
+    }
+
   }else{
     alert('¡Felicidades Terminaste! \n\nPuedes seguir jugando para intentar quedar entre los 10 mejores.');
   }

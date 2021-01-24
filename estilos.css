@@ -1,13 +1,5 @@
 .juego {
-  /* border: 1px solid red; */
   display: grid;
-  /* grid-template: 1fr / 1fr; */
-  /* grid-column-gap: 10px; */
-  /* grid-row-gap: 10px; */
-}
-.contenedor {
-  /* border: 1px solid black; */
-
 }
 .mejores-puntajes{
   position: fixed;
@@ -15,9 +7,7 @@
   top: 13px;
   width: 400px;
   transition: all 1s;
-
 }
-
 .boton-puntajes{
   position: fixed;
   right: 408px;
@@ -36,41 +26,73 @@
   align-items: center;
   user-select: none;
 }
-
 .boton-puntajes:hover{
   background-color: #53ddff;
   font-size: 14px;
 }
-
 .ingreso-tarjetas {
-  /* border: 3px solid #00ccff; */
+  display: flex;
   border-radius: 10px;
-  padding: 5px;
+  padding: 10px;
   margin: 5px 0;
   background-color: #d3faff;
+}
+.label-parejas{
+  height: 25px;
+  border: 1px solid #b6b5b5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ebebeb;
+  padding: 0px 5px;
+  border-radius: 10px 0px 0px 10px ;
 
 }
 .input-parejas{
   width: 150px;
+  height: 22px;
+  border: .5px solid #b6b5b5;
+}
+.boton-aceptar{
+  height: 26px;
+  width: 30px;
+  border-radius: 0px 10px 10px 0px ;
+  outline: none;
+  border: 1px solid #b6b5b5;
+  cursor: pointer;
+}
+.boton-aceptar:hover{
+  font-size: 12px;
+  color: gray;
 }
 .cronometro {
-  /* border: 3px solid #00ccff; */
   border-radius: 10px;
-  padding: 5px;
+  padding: 10px;
   margin: 5px 0;
   background-color: #d3faff;
-
+  font-family: 'Courier New', Courier, monospace;
+  text-align: center;
+  font-size: 20px;
+}
+.sin-puntajes{
+  background-color:#9df8ce;
+  color: #046e00;
+  font-weight: bold;
+}
+.sin-puntajes div{
+  background-color: #046e00;
 }
 
+.sin-puntajes:hover{
+  background-color: #98ff94;
+}
 .tablero {
-  /* border: 3px solid #00ccff; */
   display: none;
   flex-wrap: wrap;
   border-radius: 10px;
   padding: 5px;
   background-color: #d3faff;
 }
-
 .tarjeta {
   width: 120px;
   height: 150px;
@@ -122,12 +144,10 @@
 img {
   pointer-events: none;
 }
-
 table {
   border-collapse: collapse;
   width: 400px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
 }
 thead, tfoot{
   background-color: #7bc8db;
@@ -136,10 +156,6 @@ thead, tfoot{
 th{
   height: 40px;
   font-weight: 600;
-
-}
-thead tr th:nth-child(1){
-  /* border-radius: 10px 0 0 0; */
 }
 thead tr th:last-child{
   border-radius: 0 10px 0 0;
@@ -151,16 +167,12 @@ tfoot tr th:last-child{
   border-radius: 0 0 10px 0;
 }
 th, td{
-  text-align: center;  
-
+  text-align: center;
 }
 tr td:nth-child(3){
   overflow: hidden;
   width: 140px;
   height: 10px;
-  /* color: #00ccff; */
-  /* height: 36px; */
-
 }
 td div{
   background-color: #5aa6b9;

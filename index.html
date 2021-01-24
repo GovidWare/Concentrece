@@ -11,12 +11,12 @@
 
 <body>
 
-  <div class="juego">
+  <div id="Juego" class="juego">
 
     <section class="contenedor">
       <section class="ingreso-tarjetas">
         <label for="InputParejas">Cantidad de parejas</label>
-        <input id="InputParejas" type="number" name="parejas" min="8" max="150" placeholder="Máximo 150, Minimo 8"
+        <input id="InputParejas" class="input-parejas" type="number" name="parejas" min="8" max="150" placeholder="Máximo 150, Minimo 8"
           value="8">
         <button id="BotonAceptar" class="boton-aceptar">Aceptar</button>
       </section>
@@ -24,10 +24,10 @@
       <div id="Cronometro" class="cronometro">00 : 00 : 00 : 00</div>
 
       <section id="Tablero" class="tablero"></section>
-      
+
     </section>
 
-    <div class="boton-puntajes">⯈</div>
+    <div id="BotonPuntajes" class="boton-puntajes" title="Lista de puntajes">⯈</div>
 
     <section id="MejoresPuntajes" class="mejores-puntajes">
 

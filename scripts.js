@@ -18,7 +18,6 @@ const MostrarPuntajes = () => {
       
       Errores = (Errores == '')? 0 : Errores; 
 
-
       TableroPuntajes.innerHTML +=`
       <tr>
         <td><div>${I+1}<div></td>
@@ -34,9 +33,10 @@ const MostrarPuntajes = () => {
 
 const IniciarJuego = () => {
 
-  window.onbeforeunload = ()=> { return '' } ; // Preguntar si desea salir de la aplicación
+  // window.onbeforeunload = ()=> { return '' } ; // Preguntar si desea salir de la aplicación
 
   MostrarPuntajes();
+  
 
   document.getElementById('BotonAceptar').addEventListener('click', PintarTablero);
   document.getElementById('InputParejas').addEventListener('keypress', (e) => {
@@ -44,6 +44,29 @@ const IniciarJuego = () => {
       PintarTablero();
     }
   });
+
+  const BotonPuntajes = document.getElementById('BotonPuntajes');
+  const MejoresPuntajes = document.getElementById('MejoresPuntajes');
+
+  BotonPuntajes.addEventListener('click',()=>{
+    ClickBotonPuntajes(BotonPuntajes, MejoresPuntajes);
+  });
+}
+
+const ClickBotonPuntajes = (BotonPuntajes, MejoresPuntajes)=>{
+
+  if(BotonPuntajes.textContent === '⯈'){
+    BotonPuntajes.textContent = '⯇';
+    BotonPuntajes.style.right = '0px';
+    MejoresPuntajes.style.width = '0px';
+    MejoresPuntajes.style.right = '0px';
+
+  }else{
+    BotonPuntajes.textContent = '⯈';
+    BotonPuntajes.style.right = '408px';
+    MejoresPuntajes.style.width = '400px';
+    MejoresPuntajes.style.right = '8px';
+  } 
 }
 
 const PintarTablero = () => {
@@ -53,9 +76,18 @@ const PintarTablero = () => {
   if (ValorIngresado.value < 8 || ValorIngresado.value > 150) {
     alert('El número de parejas ingresadas no es valido');
     ValorIngresado.value = '';
+    ValorIngresado.focus();
     return;
   }
 
+  const BotonPuntajes = document.getElementById('BotonPuntajes');
+  
+  if(BotonPuntajes.textContent === '⯈'){
+    const MejoresPuntajes = document.getElementById('MejoresPuntajes');
+    ClickBotonPuntajes(BotonPuntajes, MejoresPuntajes);
+  }
+
+  document.getElementById('Tablero').style.display = 'flex';
   clearInterval(MostrarCronometro);
 
   const CantidadTarjetas = ValorIngresado.value * 2;
@@ -360,12 +392,12 @@ const MoverPuntajes = (J)=>{
   console.log('Ultimo= '+Ultimo+' J= '+J);
   
   for (let I = Ultimo; I >= J + 1; I--) {
-    console.log('Entro 2 '+I);
+    console.log('I= '+I+', I-1= '+(I-1));
 
     ConfigurarCookie(`NickName_${I}`, ObtenerCookie(`NickName_${I-1}`), 100);
     ConfigurarCookie(`Tiempo_${I}`, ObtenerCookie(`Tiempo_${I-1}`), 100);
     ConfigurarCookie(`Parejas_${I}`, ObtenerCookie(`Parejas_${I-1}`), 100);
-    ConfigurarCookie(`Errores_${I}`, ObtenerCookie(`Errores${I-1}`), 100);
+    ConfigurarCookie(`Errores_${I}`, ObtenerCookie(`Errores_${I-1}`), 100);
   }
 
 }

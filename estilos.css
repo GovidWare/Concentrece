@@ -1,5 +1,7 @@
 .juego {
   display: grid;
+  user-select: none;
+
 }
 .mejores-puntajes{
   position: fixed;
@@ -24,7 +26,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  user-select: none;
 }
 .boton-puntajes:hover{
   background-color: #53ddff;
@@ -35,7 +36,7 @@
   border-radius: 10px;
   padding: 10px;
   margin: 5px 0;
-  background-color: #d3faff;
+  background-color: #9191ff;
 }
 .label-parejas{
   height: 25px;
@@ -52,6 +53,7 @@
   width: 150px;
   height: 22px;
   border: .5px solid #b6b5b5;
+  text-align: center;
 }
 .boton-aceptar{
   height: 26px;
@@ -69,29 +71,25 @@
   border-radius: 10px;
   padding: 10px;
   margin: 5px 0;
-  background-color: #d3faff;
+  background-color: #9191ff;
   font-family: 'Courier New', Courier, monospace;
   text-align: center;
   font-size: 20px;
+  
 }
-.sin-puntajes{
-  background-color:#9df8ce;
-  color: #046e00;
-  font-weight: bold;
-}
-.sin-puntajes div{
-  background-color: #046e00;
+.cronometro span{
+  background-color: white;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: inset 1px 1px 5px 1px #616161;
 }
 
-.sin-puntajes:hover{
-  background-color: #98ff94;
-}
 .tablero {
   display: none;
   flex-wrap: wrap;
   border-radius: 10px;
   padding: 5px;
-  background-color: #d3faff;
+  background-color: #9191ff;
 }
 .tarjeta {
   width: 120px;
@@ -102,7 +100,6 @@
   cursor: pointer;
   border-radius: 10%;
   box-shadow: 2px 2px 4px 0px #616161;
-  user-select: none;
 }
 .cubierta {
   transform: rotateY(0deg);
@@ -183,7 +180,7 @@ td div{
 tbody tr{
   background-color: #bedbfc;
 }
-tbody tr:nth-child(even){
+ .alternar:nth-child(even){
   background-color: #d2e7ff;
 }
 tbody tr td:nth-child(1){
@@ -195,7 +192,31 @@ tbody tr td:nth-child(1){
 tbody tr td:nth-child(2){
   text-transform: capitalize;
 }
-tbody tr:hover{
+tbody .alternar:hover{
   background-color: #94cedd;
   cursor: pointer;
+}
+
+.sin-puntajes{
+  background-color:#9df8ce;
+  color: #046e00;
+  font-weight: bold;
+}
+.sin-puntajes div{
+  background-color: #046e00;
+}
+
+.sin-puntajes:hover{
+  background-color: #98ff94;
+}
+.nuevo-puntaje{
+  background-color: #64ff5f;
+  color: #14500c;
+  font-weight: bold;
+}
+.nuevo-puntaje div{
+  background-color: #046e00;
+}
+ .nuevo-puntaje:hover{
+  background-color: #6bd467;
 }

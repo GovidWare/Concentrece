@@ -2,8 +2,9 @@ var ParejasNoEncontradas;
 var MostrarCronometro;
 var ParejasJugadas;
 var ErroresActual;
+var PrimerClick;
 
-const MostrarPuntajes = () => {
+const MostrarPuntajes = (Puesto = null) => {
 
   const TableroPuntajes = document.querySelector('#MejoresPuntajes tbody');
 
@@ -15,17 +16,28 @@ const MostrarPuntajes = () => {
     let Errores = ObtenerCookie(`Errores_${I}`);
 
     if(Tiempo!= null){
-      
-      Errores = (Errores == '')? 0 : Errores; 
 
-      TableroPuntajes.innerHTML +=`
-      <tr>
-        <td><div>${I+1}<div></td>
-        <td>${NickName}</td>
-        <td>${Tiempo}</td>
-        <td>${Parejas}</td>
-        <td>${Errores}</td>
-      </tr>`;
+      Errores = (Errores == '')? 0 : Errores; 
+      
+      if(Puesto != null && I == Puesto){
+        TableroPuntajes.innerHTML +=`
+        <tr class='nuevo-puntaje'>
+          <td><div>${I+1}<div></td>
+          <td>${NickName}</td>
+          <td>${Tiempo}</td>
+          <td>${Parejas}</td>
+          <td>${Errores}</td>
+        </tr>`;
+      }else{
+        TableroPuntajes.innerHTML +=`
+        <tr class='alternar'>
+          <td><div>${I+1}<div></td>
+          <td>${NickName}</td>
+          <td>${Tiempo}</td>
+          <td>${Parejas}</td>
+          <td>${Errores}</td>
+        </tr>`;
+      }
     }
   }
   if(TableroPuntajes.innerHTML == ''){
@@ -43,7 +55,6 @@ const IniciarJuego = () => {
   // window.onbeforeunload = ()=> { return '' } ; // Preguntar si desea salir de la aplicación
 
   MostrarPuntajes();
-  
 
   document.getElementById('BotonAceptar').addEventListener('click', PintarTablero);
   document.getElementById('InputParejas').addEventListener('keypress', (e) => {
@@ -86,6 +97,8 @@ const PintarTablero = () => {
     ValorIngresado.focus();
     return;
   }
+  PrimerClick = true;
+  document.querySelector('#Cronometro span').innerHTML='00 : 00 : 00 : 00';
 
   const BotonPuntajes = document.getElementById('BotonPuntajes');
   
@@ -105,9 +118,6 @@ const PintarTablero = () => {
   const Tablero = document.getElementById('Tablero');
   Tablero.innerHTML = '';
   const Parejas = CrearParejas(CantidadTarjetas);
-
-  console.log(Parejas);
-
   const Fragmento = document.createDocumentFragment();
 
   for (let I = 0; I < CantidadTarjetas; I++) {
@@ -137,7 +147,7 @@ const PintarTablero = () => {
   }
   Tablero.appendChild(Fragmento);
 
-  IniciarCronometro();
+  // IniciarCronometro();
 }
 
 const CrearParejas = (CantidadTarjetas) => {
@@ -174,6 +184,11 @@ const CrearParejas = (CantidadTarjetas) => {
 
 const ClickTarjeta = (e) => {
 
+  if(PrimerClick){
+    IniciarCronometro();
+    PrimerClick = false;
+  }
+
   const Tarjeta = e.currentTarget;
   Tarjeta.removeEventListener('click', ClickTarjeta);
 
@@ -199,7 +214,7 @@ const ClickTarjeta = (e) => {
 
         let Milisegundos = 500;
         setTimeout(() => {
-          Gano();
+          Termino();
         }, Milisegundos);
       }
     } else {
@@ -251,7 +266,7 @@ const TarjetasIguales = (TarjetaDudaUno, TarjetaDudaDos) => {
 
 const IniciarCronometro = () => {
 
-  let Cronometro = document.getElementById('Cronometro');
+  let Cronometro = document.querySelector('#Cronometro span');
   let TiempoInicial = new Date();
 
   MostrarCronometro = setInterval(() => {
@@ -281,14 +296,14 @@ const DosDigitos = (Numero) => {
   return (Numero < 10) ? '0' + Numero : Numero;
 }
 
-const Gano = () => {
+const Termino = () => {
 
   const Puesto = ConsultarPuntajes();
-  let Tiempo = document.getElementById('Cronometro');
+  let Tiempo = document.querySelector('#Cronometro span');
 
   if (Puesto != -1) {
     
-    let NickName = prompt('¡Felicidades Terminaste! \n Ingresa tu nombre :');
+    let NickName = prompt('¡Felicidades Terminaste! \nIngresa tu nombre :');
 
     NickName = (NickName == undefined || NickName.trim() == '' )? 'Usuario' : NickName;
     
@@ -303,7 +318,7 @@ const Gano = () => {
     ConfigurarCookie(`Parejas_${Puesto}`, ParejasJugadas, 100);
     ConfigurarCookie(`Errores_${Puesto}`, ErroresActual, 100);
     
-    MostrarPuntajes();
+    MostrarPuntajes(Puesto);
 
     const BotonPuntajes = document.getElementById('BotonPuntajes');
     if(BotonPuntajes.textContent === '⯇'){
@@ -312,7 +327,7 @@ const Gano = () => {
     }
 
   }else{
-    alert('¡Felicidades Terminaste! \n\nPuedes seguir jugando para intentar quedar entre los 10 mejores.');
+    alert('¡Felicidades Terminaste! \n\nPuedes seguir jugando para quedar entre los 10 mejores.');
   }
   
   Tiempo.innerText = '00 : 00 : 00 : 00';
@@ -342,8 +357,9 @@ const ObtenerCookie = (name) => {
 
 const ConsultarPuntajes = ()=>{
 
-  let TiempoActual = document.getElementById('Cronometro').innerHTML;
-  TiempoActual = ConvertirTiempoDecimal(TiempoActual);
+  let TiempoActual = document.querySelector('#Cronometro span').innerHTML;
+  TiempoActual = ConvertirTiempoMilisegundos(TiempoActual);
+
   if (TiempoActual == 0) {
     return -1
   }
@@ -352,15 +368,13 @@ const ConsultarPuntajes = ()=>{
     let TiempoAlmacedado = ObtenerCookie(`Tiempo_${I}`);
 
     if(TiempoAlmacedado != null){
-      let TiempoAlmacedadoDecimal = ConvertirTiempoDecimal(TiempoAlmacedado);
+      let TiempoAlmacedadoDecimal = ConvertirTiempoMilisegundos(TiempoAlmacedado);
       let ParejasAlmacenadas = ObtenerCookie(`Parejas_${I}`);
       let ErroresAlmacenados = ObtenerCookie(`Errores${I}`);
 
       let MejorPuntaje = ComprobarMejorPuntaje(TiempoActual, ParejasJugadas, ErroresActual, TiempoAlmacedadoDecimal, ParejasAlmacenadas, ErroresAlmacenados);
 
-      console.log(MejorPuntaje);
       if(MejorPuntaje){
-        console.log('Entro 1');
         MoverPuntajes(I);
         return I;
       }
@@ -373,11 +387,25 @@ const ConsultarPuntajes = ()=>{
 }
 
 const ComprobarMejorPuntaje = (Ti_Act, Pj_Act, Err_Act, Ti_Alm, Pj_Alm, Err_Alm)=>{
+
+  /**
+   Suponiendo un juego de 8 parejas donde el usuario se demoro 10 segundos en terminar
+   según la fórmula propuesta esto daría 126,9144
+
+   Ahora supongamos un juego de 9 parejas donde el usuario se demora 12 segundos con 800 milesimas
+   según la fórmula propuesta esto daría 126,8530
+
+   La fórmula dejaria al segundo caso en una mejor clasificación dadole 2 segundos con 800 milesimas
+   de ventaja a cambio de jugar una pareja más
+   
+   */
   
-  const ProporcionActual = parseInt(Ti_Act) / parseFloat(Pj_Act);
-  const ProporcionAlmacenada = parseInt(Ti_Alm) / parseFloat(Pj_Alm);
+  const ProporcionActual     = (parseInt(Ti_Act) * Math.pow((1 / parseFloat(Pj_Act)), 1.1) ) / parseFloat(Pj_Act);
+  const ProporcionAlmacenada = (parseInt(Ti_Alm) * Math.pow((1 / parseFloat(Pj_Alm)), 1.1) ) / parseFloat(Pj_Alm);
   const ErrorActual = parseInt(Err_Act);
   const ErrorAlmacenado = parseInt(Err_Alm);
+
+  console.log('ProporcionActual= '+ProporcionActual +', ProporcionAlmacenada= '+ProporcionAlmacenada);
 
   if (ProporcionActual < ProporcionAlmacenada) {
     return true;
@@ -403,10 +431,8 @@ const MoverPuntajes = (J)=>{
   }
 
   Ultimo = (Ultimo < 9)? Ultimo + 1 : Ultimo;
-  console.log('Ultimo= '+Ultimo+' J= '+J);
   
   for (let I = Ultimo; I >= J + 1; I--) {
-    console.log('I= '+I+', I-1= '+(I-1));
 
     ConfigurarCookie(`NickName_${I}`, ObtenerCookie(`NickName_${I-1}`), 100);
     ConfigurarCookie(`Tiempo_${I}`, ObtenerCookie(`Tiempo_${I-1}`), 100);
@@ -416,15 +442,16 @@ const MoverPuntajes = (J)=>{
 
 }
 
-const ConvertirTiempoDecimal = (Tiempo)=>{
+const ConvertirTiempoMilisegundos = (Tiempo)=>{
   Tiempo = Tiempo.split(':');
-  let TiempoDecimal = '';
+  let TiempoDecimal = 0;
 
-  Tiempo.forEach(element => {
-    TiempoDecimal+= element.trim();
-  });
+  TiempoDecimal += parseInt(Tiempo[0])*60*60*1000;
+  TiempoDecimal += parseInt(Tiempo[1])*60*1000;
+  TiempoDecimal += parseInt(Tiempo[2])*1000;
+  TiempoDecimal += parseInt(Tiempo[3]);
 
-  return parseInt(TiempoDecimal);
+  return TiempoDecimal;
 }
 
 IniciarJuego();

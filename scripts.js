@@ -52,7 +52,7 @@ const MostrarPuntajes = (Puesto = null) => {
 
 const IniciarJuego = () => {
 
-  // window.onbeforeunload = ()=> { return '' } ; // Preguntar si desea salir de la aplicación
+  window.onbeforeunload = ()=> { return '' } ; // Preguntar si desea salir de la aplicación
 
   MostrarPuntajes();
 
@@ -146,8 +146,6 @@ const PintarTablero = () => {
     Fragmento.appendChild(Tarjeta);
   }
   Tablero.appendChild(Fragmento);
-
-  // IniciarCronometro();
 }
 
 const CrearParejas = (CantidadTarjetas) => {
@@ -329,8 +327,8 @@ const Termino = () => {
   }else{
     alert('¡Felicidades Terminaste! \n\nPuedes seguir jugando para quedar entre los 10 mejores.');
   }
-  
   Tiempo.innerText = '00 : 00 : 00 : 00';
+  document.getElementById('InputParejas').focus();
 }
 
 const ConfigurarCookie = (name, value, days) => {
@@ -444,14 +442,14 @@ const MoverPuntajes = (J)=>{
 
 const ConvertirTiempoMilisegundos = (Tiempo)=>{
   Tiempo = Tiempo.split(':');
-  let TiempoDecimal = 0;
+  let TiempoMilisegundos = 0;
 
-  TiempoDecimal += parseInt(Tiempo[0])*60*60*1000;
-  TiempoDecimal += parseInt(Tiempo[1])*60*1000;
-  TiempoDecimal += parseInt(Tiempo[2])*1000;
-  TiempoDecimal += parseInt(Tiempo[3]);
+  TiempoMilisegundos += parseInt(Tiempo[0])*60*60*1000;
+  TiempoMilisegundos += parseInt(Tiempo[1])*60*1000;
+  TiempoMilisegundos += parseInt(Tiempo[2])*1000;
+  TiempoMilisegundos += parseInt(Tiempo[3]);
 
-  return TiempoDecimal;
+  return TiempoMilisegundos;
 }
 
 IniciarJuego();
